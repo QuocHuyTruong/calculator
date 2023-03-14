@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Grid } from "@mui/material";
+import Modal from "../modal/Modal";
 
 const Calculator = () => {
   const [value, setValue] = useState({
     number: "",
     ans: "",
   });
-
+  const [showModal, setShowModal] = useState(false);
+  const data = useRef("");
   const [history, setHistory] = useState([]);
 
   const handleLoadButton = (val) => {
@@ -25,12 +27,13 @@ const Calculator = () => {
 
   const handLoadAnswer = () => {
     try {
+      const result = eval(value.number);
       setValue({
         ...value,
         // eslint-disable-next-line no-eval
-        ans: eval(value.number),
+        ans: result,
       });
-      setHistory([...history, value]);
+      setHistory([...history, { number: value.number, ans: result }]);
     } catch (error) {
       setValue({
         ...value,
@@ -45,8 +48,17 @@ const Calculator = () => {
       ans: "",
     });
   };
+  const handleModal = (text) => {
+    data.current = text;
+    setShowModal(true);
+  };
   return (
     <div>
+      <Modal
+        open={showModal}
+        handleClose={() => setShowModal(false)}
+        data={data.current}
+      ></Modal>
       <React.Fragment>
         <Grid container>
           <Grid sm={6}>
@@ -189,8 +201,21 @@ const Calculator = () => {
               <div className="text-slate-900 w-full font-bold text-3xl h-16 flex items-center space-x-2 pl-2">
                 <p>Lịch sử tính toán</p>
               </div>
-              <div className="grid grid-cols-4 gap-2 mt-10 mx-3">
-                {history.map((item) => console.log(item))}
+              <div className="gap-2 mt-10 mx-3 ">
+                {history.map((item, index) => (
+                  <div
+                    key={index}
+                    className="mb-2 w-[70%] flex justify-between "
+                  >
+                    <span className="mr-2">{item.number + "=" + item.ans}</span>
+                    <button
+                      onClick={() => handleModal(item.number)}
+                      className="text-white bg-blue-300 rounded-lg p-1"
+                    >
+                      Them cong thuc
+                    </button>
+                  </div>
+                ))}
               </div>
             </div>
           </Grid>
