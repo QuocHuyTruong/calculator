@@ -1,15 +1,20 @@
 import React, { useRef, useState } from "react";
 import { Grid } from "@mui/material";
 import Modal from "../modal/Modal";
+import { useDispatch, useSelector } from "react-redux";
+import { addHistory } from "../../redux-toolkit/historySlice";
 
 const Calculator = () => {
+  const dispatch = useDispatch();
+  const history = useSelector((state) => state.history);
+  const calculator = useSelector((state) => state.calculator);
   const [value, setValue] = useState({
     number: "",
     ans: "",
   });
   const [showModal, setShowModal] = useState(false);
   const data = useRef("");
-  const [history, setHistory] = useState([]);
+  // const [history, setHistory] = useState([]);
 
   const handleLoadButton = (val) => {
     setValue({
@@ -33,7 +38,8 @@ const Calculator = () => {
         // eslint-disable-next-line no-eval
         ans: result,
       });
-      setHistory([...history, { number: value.number, ans: result }]);
+      // setHistory([...history, { number: value.number, ans: result }]);
+      dispatch(addHistory({ number: value.number, ans: result }));
     } catch (error) {
       setValue({
         ...value,
@@ -52,6 +58,20 @@ const Calculator = () => {
     data.current = text;
     setShowModal(true);
   };
+
+  const handleSelecter = (e) => {
+    console.log(e.target.value);
+    setValue({
+      number: value.number.concat(e.target.value),
+    });
+  };
+
+  const handleOnchange = (e) => {
+    console.log(e.target.value);
+    setValue({
+      number: e.target.value,
+    });
+  };
   return (
     <div>
       <Modal
@@ -61,7 +81,16 @@ const Calculator = () => {
       ></Modal>
       <React.Fragment>
         <Grid container>
-          <Grid sm={6}>
+          <Grid sm={4}>
+            <select name="abc" onChange={handleSelecter}>
+              {calculator.map((item) => (
+                <option value={item.congthuc}>
+                  {item.ten + "(" + item.congthuc + ")"}
+                </option>
+              ))}
+            </select>
+          </Grid>
+          <Grid sm={4}>
             <div className="bg-green-900 w-96 h-screen mx-auto rounded-lg overflow-hidden mt-5">
               <div className="text-gray-200 w-full font-bold text-3xl h-16 flex items-center space-x-2 pl-2">
                 <p>CALCULATOR APP</p>
@@ -72,6 +101,7 @@ const Calculator = () => {
                   type="text"
                   placeholder="0"
                   value={value.number}
+                  onChange={handleOnchange}
                   className=" w-full h-3/6 border border-white bg-white text-gray-900 text-4xl text-right pr-5 "
                 />
                 <p className=" w-full h-3/6 border border-white bg-white text-gray-900 text-4xl text-right pr-5 ">
@@ -196,7 +226,7 @@ const Calculator = () => {
               </div>
             </div>
           </Grid>
-          <Grid sm={6}>
+          <Grid sm={4}>
             <div className="bg-slate-200 w-auto h-screen mx-auto rounded-lg overflow-hidden mt-5 mr-10">
               <div className="text-slate-900 w-full font-bold text-3xl h-16 flex items-center space-x-2 pl-2">
                 <p>Lịch sử tính toán</p>
