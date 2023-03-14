@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useRef } from "react";
 import ReactDOM from "react-dom";
+import { useDispatch } from "react-redux";
+import { addCongThuc } from "../../redux-toolkit/calculatorSlice";
 const Modal = ({ open = false, handleClose = () => {}, data }) => {
+  const dispatch = useDispatch();
   if (typeof document === "undefined") return <div></div>;
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e.target[0].value);
-    console.log(e.target[1].value);
+    const res = { ten: e.target[0].value, congthuc: e.target[1].value };
+    dispatch(addCongThuc(res));
+    e.target[0].value = "";
+    handleClose();
   };
   return ReactDOM.createPortal(
     <div
