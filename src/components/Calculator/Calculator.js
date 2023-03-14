@@ -62,6 +62,13 @@ const Calculator = () => {
   const handleSelecter = (e) => {
     console.log(e.target.value);
     setValue({
+      number: value.number.concat(e.target.value),
+    });
+  };
+
+  const handleOnchange = (e) => {
+    console.log(e.target.value);
+    setValue({
       number: e.target.value,
     });
   };
@@ -94,6 +101,7 @@ const Calculator = () => {
                   type="text"
                   placeholder="0"
                   value={value.number}
+                  onChange={handleOnchange}
                   className=" w-full h-3/6 border border-white bg-white text-gray-900 text-4xl text-right pr-5 "
                 />
                 <p className=" w-full h-3/6 border border-white bg-white text-gray-900 text-4xl text-right pr-5 ">
