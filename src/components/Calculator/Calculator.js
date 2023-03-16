@@ -18,10 +18,25 @@ const Calculator = () => {
   // const [history, setHistory] = useState([]);
 
   const handleLoadButton = (val) => {
-    setValue({
-      ...value,
-      number: value.number.concat(val),
-    });
+    if (val === "+" || val === "-" || val === "*" || val === "/") {
+      if (
+        value.number.slice(-1) === "+" ||
+        value.number.slice(-1) === "-" ||
+        value.number.slice(-1) === "*" ||
+        value.number.slice(-1) === "/"
+      ) {
+      } else {
+        setValue({
+          ...value,
+          number: value.number.concat(val),
+        });
+      }
+    } else {
+      setValue({
+        ...value,
+        number: value.number.concat(val),
+      });
+    }
   };
 
   const handleLoadBackSpace = () => {
