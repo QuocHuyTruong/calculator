@@ -16,7 +16,25 @@ const Calculator = () => {
    const [showModal, setShowModal] = useState(false);
    const data = useRef("");
    // const [history, setHistory] = useState([]);
-
+   const handLoadAnswer = () => {
+      try {
+         // eslint-disable-next-line no-eval
+         const result = eval(value.number);
+         setValue({
+            ...value,
+            // eslint-disable-next-line no-eval
+            ans: result,
+         });
+         // setHistory([...history, { number: value.number, ans: result }]);
+         dispatch(addHistory({ number: value.number, ans: result }));
+      } catch (error) {
+         setValue({
+            ...value,
+            // eslint-disable-next-line no-eval
+            ans: "Error",
+         });
+      }
+   };
    const handleLoadButton = (val) => {
       if (val === "+" || val === "-" || val === "*" || val === "/") {
          if (
@@ -44,28 +62,6 @@ const Calculator = () => {
          ...value,
          number: value.number.slice(0, -1),
       });
-   };
-
-   const handLoadAnswer = () => {
-      try {
-         // eslint-disable-next-line no-eval
-         const result = eval(value.number);
-         setValue({
-            ...value,
-            // eslint-disable-next-line no-eval
-            ans: result,
-         });
-         // setHistory([...history, { number: value.number, ans: result }]);
-         dispatch(addHistory({ number: value.number, ans: result }));
-        
-      } catch (error) {
-         setValue({
-            ...value,
-            // eslint-disable-next-line no-eval
-            ans: "Error",
-         });
-      }
-      
    };
 
    const handleClear = () => {
