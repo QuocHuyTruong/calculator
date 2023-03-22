@@ -29,9 +29,12 @@ function App() {
             Slidebar
           </h1>
         </div>
-        <ul className={`mt-6 overflow-auto h-[80vh] ${!open && "scale-0"}`}>
-          <TreeCustom className={``} />
-        </ul>
+
+        <TreeCustom
+          className={`mt-6 overflow-auto overflow-x-hidden h-[85vh] ${
+            !open && "scale-0"
+          }`}
+        />
       </div>
 
       <div className="p-7 text-2xl font-semibold flex-1 h-screen">

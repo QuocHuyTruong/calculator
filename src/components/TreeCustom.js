@@ -65,7 +65,7 @@ const createTree = (listData) =>
         };
       });
 
-function TreeCustom() {
+function TreeCustom({ className }) {
   const _isMounted = useRef(false),
     [data, setData] = useState([]),
     [arrTree, setArrTree] = useState([]),
@@ -143,31 +143,6 @@ function TreeCustom() {
     }
   };
 
-  const handleScroll = () => {
-    const percent =
-      document.documentElement.scrollTop -
-      (document.documentElement.scrollHeight -
-        document.documentElement.clientHeight);
-
-    if (Math.ceil(percent) === 0) {
-      if (data.length < arrTree.length) {
-        console.log("object");
-        setLoading(true);
-      }
-    }
-    console.log(
-      "🚀 ~ file: TreeCustom.js:159 ~ handleScroll ~ document.documentElement.clientHeight:",
-      document.documentElement.clientHeight
-    );
-    console.log(
-      "🚀 ~ file: TreeCustom.js:159 ~ handleScroll ~ document.documentElement.scrollHeight:",
-      document.documentElement.scrollHeight
-    );
-    console.log(
-      "🚀 ~ file: TreeCustom.js:159 ~ handleScroll ~ document.documentElement.scrollTop:",
-      document.documentElement.scrollTop
-    );
-  };
   useEffect(() => {
     if (loading) {
       setIndex((pre) => pre + rowPerPage);
@@ -175,17 +150,25 @@ function TreeCustom() {
     }
   }, [loading]);
 
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
+  // useEffect(() => {
+  //   window.addEventListener("scroll", handleScroll);
 
-    return () => window.removeEventListener("scroll", handleScroll);
-  });
-  const divRef = useRef();
-  console.log("🚀 ~ file: TreeCustom.js:185 ~ TreeCustom ~ divRef:", divRef);
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // });
+  const handleScroll = (e) => {
+    const percent =
+      e.target.scrollTop - (e.target.scrollHeight - e.target.clientHeight);
+
+    if (Math.ceil(percent) === 0) {
+      if (data.length < arrTree.length) {
+        setLoading(true);
+      }
+    }
+  };
+
   return (
-    <div ref={divRef} onScroll={handleScroll}>
+    <div onScroll={handleScroll} className={className}>
       <Tree
-        onScroll={handleScroll}
         blockNode
         expandedKeys={arrExpandedKey}
         onExpand={onNodeExpand}
@@ -193,14 +176,13 @@ function TreeCustom() {
         className="draggable-tree"
         treeData={data}
       />
-      {loading ? (
+      {loading || arrTree.length === 0 ? (
         <button
           disabled
           type="button"
-          className="py-2.5 px-5 mr-2 text-sm font-medium text-gray-900 bg-white rounded-lg inline-flex items-center"
+          className="py-2.5 px-5 mr-2 text-sm font-medium text-gray-900 bg-white rounded-lg w-full flex items-center"
         >
           <svg
-            ariaHidden="true"
             role="status"
             className="inline w-4 h-4 mr-3 text-gray-200 animate-spin "
             viewBox="0 0 100 101"
@@ -219,7 +201,7 @@ function TreeCustom() {
           Loading...
         </button>
       ) : (
-        <div className="w-4"></div>
+        <div className="w-4 h-5"></div>
       )}
     </div>
   );
