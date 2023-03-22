@@ -15,7 +15,7 @@ function TreeCustom() {
                 setArrData(await loadTreeNode(null, 10))
             }
         }
-        , [visable, setVisable] = useState(50)
+        , [visable, setVisable] = useState(10)
         , loader = useRef(null)
         , [loading, setLoading] = useState(false)
 
@@ -77,8 +77,8 @@ function TreeCustom() {
                         return {
                             title: (
 
-                                <div className={`title-tree-node ${data.IsParent ? data.ParentId ? 'district' : 'city' : ''}`}>
-                                    <label className="col-form-label ">
+                                <div className={`title-tree-node  ${data.IsParent ? data.ParentId ? 'district' : 'city' : ''}`}>
+                                    <label className="col-form-label overflow-y-auto">
                                         {data.ProvinceName}_{data.Idc}
                                     </label>
                                 </div>
@@ -160,6 +160,7 @@ function TreeCustom() {
                 />
 
             </div>
+           
             <button onClick={loadMore} ref={loader}>
                 <div>
                     <img src={Loading} alt="" />
