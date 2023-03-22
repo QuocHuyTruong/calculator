@@ -804,8 +804,12 @@ function TreeCustom() {
 
   useEffect(() => {
     if (loading) {
-      setIndex((pre) => pre + rowPerPage);
-      setLoading(false);
+      const timer = setTimeout(() => {
+        setIndex((pre) => pre + rowPerPage);
+        setLoading(false);
+      }, 2000);
+
+      return () => clearTimeout(timer);
     }
   }, [loading]);
   useEffect(() => {
@@ -850,7 +854,7 @@ function TreeCustom() {
           Loading...
         </button>
       ) : (
-        ""
+        <div className="w-4 h-4"></div>
       )}
     </div>
   );
