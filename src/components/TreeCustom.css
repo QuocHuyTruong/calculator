@@ -1,0 +1,23 @@
+.draggable-tree {
+  width: 350px;
+  transition-duration: 300ms;
+  padding: 4px;
+  padding-top: 2px;
+  height: 100vh;
+  --tw-bg-opacity: 1;
+  background-color: rgb(30 41 59 / var(--tw-bg-opacity));
+  overflow: auto;
+  color: white;
+  overflow-y: hidden;
+}
+.ant-tree-treenode {
+  display: flex;
+  padding: 0.5rem;
+  color: #d1d5db;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  align-items: center;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  column-gap: 1rem;
+}
