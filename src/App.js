@@ -1,7 +1,7 @@
 import { UnorderedListOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import TreeCustom from "./components/TreeCustom";
+import TreeCustomV2 from "./components/TreeCustomV2";
 function App() {
   const cal = useSelector((state) => state.calculator);
   console.log("🚀 ~ file: App.js:5 ~ App ~ cal:", cal);
@@ -30,7 +30,7 @@ function App() {
           </h1>
         </div>
 
-        <TreeCustom
+        <TreeCustomV2
           className={`mt-6 overflow-auto overflow-x-hidden h-[85vh] ${
             !open && "scale-0"
           }`}
